@@ -14,7 +14,7 @@ class WorkoutViewModel extends ChangeNotifier {
 
   static const int minDifficultyLevel = 1;
   static const int maxDifficultyLevel = 10;
-  static const int resistancePerLevelStep = 5; // Шаг изменен на 5
+  static const int resistancePerLevelStep = 5;
   int _currentDifficultyLevel = minDifficultyLevel;
 
   double _distance = 0.0;
@@ -47,8 +47,6 @@ class WorkoutViewModel extends ChangeNotifier {
     return level * resistancePerLevelStep;
   }
 
-  //int get resistance => _resistance;
-
   double get distance => _distance;
 
   bool get isRunning => _isRunning;
@@ -72,15 +70,8 @@ class WorkoutViewModel extends ChangeNotifier {
   }
 
   int _resistanceToDifficultyLevel(int serverResistance) {
-    if (resistancePerLevelStep == 0)
-      return minDifficultyLevel; // Защита от деления на ноль
-    if (serverResistance <= 0)
-      return minDifficultyLevel; // Если сопротивление 0 или меньше, считаем минимальным уровнем
-
-    // Округляем до ближайшего уровня. Например, если сопротивление 7, а шаг 5, (7/5).round() = 1.round() = 1.
-    // Если сопротивление 12, (12/5).round() = 2.4.round() = 2.
-    // Это предполагает, что сервер будет возвращать значения, кратные resistancePerLevelStep,
-    // или мы принимаем ближайший уровень.
+    if (resistancePerLevelStep == 0) return minDifficultyLevel;
+    if (serverResistance <= 0) return minDifficultyLevel;
     double calculatedLevel = serverResistance / resistancePerLevelStep;
     return calculatedLevel.round().clamp(
       minDifficultyLevel,

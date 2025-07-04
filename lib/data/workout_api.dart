@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-/// Получает текущее состояние тренажера: расстояние, сопротивление, активность
 Future<Map<String, dynamic>> fetchStateFromDevice(String ip) async {
   final response = await http.get(Uri.parse('$ip?json=1'));
 
@@ -12,7 +11,6 @@ Future<Map<String, dynamic>> fetchStateFromDevice(String ip) async {
   }
 }
 
-/// Устанавливает новое сопротивление
 Future<void> setResistanceToDevice(String ip, int resistance) async {
   await http.post(
     Uri.parse(ip),
@@ -21,17 +19,14 @@ Future<void> setResistanceToDevice(String ip, int resistance) async {
   );
 }
 
-/// Сбрасывает тренажер (сброс дистанции, состояния и т.п.)
 Future<void> resetDevice(String ip) async {
   await http.post(Uri.parse('$ip/reset'));
 }
 
-/// Запускает тренировку (начинает считать дистанцию)
 Future<void> startDevice(String ip) async {
   await http.post(Uri.parse('$ip/start'));
 }
 
-/// Останавливает тренировку (останавливает счётчик дистанции)
 Future<void> stopDevice(String ip) async {
   await http.post(Uri.parse('$ip/stop'));
 }

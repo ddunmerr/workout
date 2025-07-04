@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'domain/workout_repository.dart';
-import 'view_model/workout_vm.dart';
-import 'ui/workout_screen.dart';
 import 'data/network_discovery_service.dart';
 import 'view_model/device_selection_vm.dart';
 import 'ui/device_selection_screen.dart';
@@ -20,7 +17,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<WorkoutRepository>(create: (_) => WorkoutRepositoryImpl()),
-        // Сервис обнаружения
         Provider<NetworkDiscoveryService>(
           create: (_) => NetworkDiscoveryService(),
         ),

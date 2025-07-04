@@ -1,6 +1,6 @@
 class DiscoveredDevice {
   final String ipAddress;
-  final String name; // Можно получить из ответа API или использовать IP как имя
+  final String name;
 
   DiscoveredDevice({required this.ipAddress, required this.name});
 

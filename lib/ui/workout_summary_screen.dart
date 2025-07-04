@@ -1,6 +1,4 @@
-// lib/ui/workout_summary_screen.dart
 import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../domain/workout_data_point.dart';
@@ -16,7 +14,6 @@ class WorkoutSummaryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Результаты тренировки'),
         leading: IconButton(
-          // Кнопка "назад"
           icon: Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -57,13 +54,11 @@ class WorkoutSummaryScreen extends StatelessWidget {
     double maxY = workoutData
         .map((p) => p.difficultyLevel.toDouble())
         .reduce(max);
-    // Добавим немного отступа сверху и снизу на графике, если нужно
-    maxY = (maxY < 5) ? 5 : maxY + 1; // Минимальная высота оси Y, плюс отступ
-    double minY = 0; // Обычно сложность не бывает отрицательной
+    maxY = (maxY < 5) ? 5 : maxY + 1;
+    double minY = 0;
 
     return LineChart(
       LineChartData(
-        // --- Общие настройки ---
         gridData: FlGridData(
           show: true,
           drawVerticalLine: true,
@@ -86,7 +81,7 @@ class WorkoutSummaryScreen extends StatelessWidget {
               reservedSize: 30,
               interval: (maxX / 5).ceilToDouble() > 0
                   ? (maxX / 5).ceilToDouble()
-                  : 1, // Адаптивный интервал
+                  : 1,
               getTitlesWidget: (value, meta) {
                 final int minutes = value.toInt() ~/ 60;
                 final int seconds = value.toInt() % 60;
@@ -95,7 +90,6 @@ class WorkoutSummaryScreen extends StatelessWidget {
                 if (value == 0 ||
                     value == maxX ||
                     meta.appliedInterval == value) {
-                  // Показывать реже
                   return SideTitleWidget(
                     axisSide: meta.axisSide,
                     space: 8.0,
@@ -114,7 +108,7 @@ class WorkoutSummaryScreen extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 28,
-              interval: 1, // Каждый уровень сложности
+              interval: 1,
               getTitlesWidget: (value, meta) {
                 if (value % 1 == 0 && value >= minY && value <= maxY) {
                   return Text(
@@ -140,7 +134,6 @@ class WorkoutSummaryScreen extends StatelessWidget {
         lineBarsData: [
           LineChartBarData(
             spots: spots,
-            // isCurved: true,
             color: Theme.of(context).primaryColor,
             barWidth: 3,
             isStrokeCapRound: true,
@@ -155,14 +148,12 @@ class WorkoutSummaryScreen extends StatelessWidget {
           handleBuiltInTouches: true,
           touchTooltipData: LineTouchTooltipData(
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
-              // ... (реализация тултипов как в предыдущем примере, если нужно)
               return touchedBarSpots.map((barSpot) {
                 final flSpot = barSpot;
                 final int minutes = flSpot.x.toInt() ~/ 60;
                 final int seconds = flSpot.x.toInt() % 60;
                 final String timeFormatted =
                     '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-
                 return LineTooltipItem(
                   'Время: $timeFormatted\n',
                   const TextStyle(

@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io'; // Для Platform.isAndroid/isIOS
 import 'package:http/http.dart' as http;
 import 'package:network_info_plus/network_info_plus.dart';
-import '../domain/discovered_device.dart'; //модель
+import '../domain/discovered_device.dart';
 
 class NetworkDiscoveryService {
   final NetworkInfo _networkInfo = NetworkInfo();
 
-  // Стрим для передачи найденных устройств по мере их обнаружения
   StreamController<DiscoveredDevice> _discoveredDevicesController =
       StreamController.broadcast();
 

@@ -23,7 +23,6 @@ class DeviceSelectionViewModel extends ChangeNotifier {
     _devicesSubscription = _discoveryService.discoveredDevicesStream.listen((
       device,
     ) {
-      // Добавляем только если такого устройства еще нет
       if (!_devices.any((d) => d.ipAddress == device.ipAddress)) {
         _devices.add(device);
         notifyListeners();
@@ -32,7 +31,7 @@ class DeviceSelectionViewModel extends ChangeNotifier {
   }
 
   Future<void> startScan() async {
-    _devices.clear(); // Очищаем список перед новым сканированием
+    _devices.clear();
     notifyListeners();
     await _discoveryService.startDiscovery();
     notifyListeners();
@@ -46,8 +45,7 @@ class DeviceSelectionViewModel extends ChangeNotifier {
   @override
   void dispose() {
     _devicesSubscription?.cancel();
-    _discoveryService
-        .dispose(); // Если сервис создается эксклюзивно для этой VM
+    _discoveryService.dispose();
     super.dispose();
   }
 }

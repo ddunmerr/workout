@@ -8,9 +8,7 @@ class DeviceSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Получаем ViewModel. Provider.of или context.watch
     final vm = Provider.of<DeviceSelectionViewModel>(context);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -63,9 +61,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                     title: Text(device.name),
                     subtitle: Text(device.ipAddress),
                     onTap: () {
-                      // Передаем выбранный IP на экран тренировки
                       Navigator.push(
-                        // или push, если хотите возвращаться
                         context,
                         MaterialPageRoute(
                           builder: (_) =>

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_model/workout_vm.dart';
-import 'workout_summary_screen.dart'; // ИМПОРТ ЭКРАНА С ГРАФИКОМ
-import '../domain/workout_repository.dart'; // Нужен для создания WorkoutViewModel
+import 'workout_summary_screen.dart';
+import '../domain/workout_repository.dart';
 
 class WorkoutScreen extends StatelessWidget {
-  final String selectedDeviceIp; // Принимаем выбранный IP
+  final String selectedDeviceIp;
+
   const WorkoutScreen({super.key, required this.selectedDeviceIp});
 
   @override
@@ -28,18 +29,14 @@ class WorkoutScreen extends StatelessWidget {
               title: Text('Тренировка'),
               centerTitle: true,
             ),
-
             body: Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(top: 50),
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                // Чтобы элементы были вверху
                 crossAxisAlignment: CrossAxisAlignment.center,
-                // Центрируем по горизонтали
                 children: [
-                  // Отображение времени
                   Text(
                     'Время: ${vm.formattedElapsedTime}',
                     style: const TextStyle(
@@ -110,9 +107,6 @@ class WorkoutScreen extends StatelessWidget {
                         onPressed: vm.isRunning ? null : vm.startWorkout,
                         child: const Text('Старт'),
                       ),
-                      //const SizedBox(width: 20),
-
-                      //const SizedBox(width: 20),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.yellow[200],
@@ -139,8 +133,6 @@ class WorkoutScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: vm.resetWorkout,
-                        //icon: Icon(Icons.refresh),
-                        // iconSize: 70,
                         child: const Text('Сброс'),
                       ),
                       ElevatedButton(
@@ -150,26 +142,18 @@ class WorkoutScreen extends StatelessWidget {
                                     vm.workoutHistoryData.isNotEmpty &&
                                     vm.workoutHistoryData.length >= 2))
                             ? () async {
-                                // Сначала останавливаем тренировку во ViewModel
                                 await vm.stopWorkout();
-
-                                // Проверяем, есть ли данные для графика, после остановки
-                                // (ViewModel уже записал последнюю точку в stopWorkout)
                                 if (vm.workoutHistoryData.isNotEmpty &&
                                     vm.workoutHistoryData.length >= 2) {
-                                  // Переходим на экран с результатами
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => WorkoutSummaryScreen(
-                                        workoutData: vm.workoutHistoryData,
-                                        // totalDistance: vm.distance, // Передаем другие данные при необходимости
-                                        // totalTimeSeconds: vm.elapsedSeconds,
-                                      ),
+                                      builder: (context) =>
+                                          WorkoutSummaryScreen(
+                                            workoutData: vm.workoutHistoryData,
+                                          ),
                                     ),
                                   );
                                 } else {
-                                  // Если данных мало или нет, можно просто показать сообщение
-                                  // (или перейти на экран результатов без графика)
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
@@ -177,12 +161,10 @@ class WorkoutScreen extends StatelessWidget {
                                       ),
                                     ),
                                   );
-                                  // Можно также просто вернуться на предыдущий экран, если нужно
                                   Navigator.of(context).pop();
                                 }
                               }
                             : null,
-                        // Кнопка неактивна, если тренировка не запущена
                         style: ElevatedButton.styleFrom(
                           fixedSize: Size(150, 75),
                           shape: RoundedRectangleBorder(
